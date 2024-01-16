@@ -1,0 +1,41 @@
+name: pdftk-snap
+base: core20
+version: '2.02-4'
+summary: PDFtk Server
+description: |
+  PDFtk is a command-line tool commonly used for server-side processing of PDFs.
+
+grade: stable
+confinement: strict
+
+architectures:
+  - amd64
+
+apps:
+  pdftk:
+    command: usr/bin/pdftk
+    plugs:
+      - home
+      - removable-media
+
+parts:
+  libgcj16:
+    plugin: dump
+    source-type: deb
+    source: packages/libgcj16_5.4.0-6ubuntu1~16.04.12_amd64.deb
+    stage:
+      - usr/lib/*linux-gnu/*
+  pdftk:
+    plugin: dump
+    source-type: deb
+    source: packages/pdftk_2.02-4_amd64.deb
+    stage-packages:
+      - libc6
+      - libdb5.3
+      - libgcc1
+      - libstdc++6
+    stage:
+      - usr/share/man/man1/pdftk.1.gz
+      - usr/bin/pdftk
+      - usr/lib/*linux-gnu/*
+      - lib/*
